@@ -15,7 +15,7 @@ export function App() {
     setTime(e.target.value);
   };
   const handleClick = () => {
-    if (title == "" || time == 0 || time == "") {
+    if (title === "" || time === 0 || time === "") {
       setError("入力されていない項目があります");
     } else {
       setRecords([...records, { title: title, time: time }]);
