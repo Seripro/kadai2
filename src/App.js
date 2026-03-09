@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+import { getAllRecords } from "./utils/supabaseFunctions";
 
 export function App() {
   const [title, setTitle] = useState("");
@@ -25,6 +26,8 @@ export function App() {
     }
   };
   console.log(timeList);
+  const records2 = getAllRecords();
+  console.log(records2);
   return (
     <>
       <h1>学習記録一覧</h1>
