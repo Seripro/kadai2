@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAllRecords } from "./utils/supabaseFunctions";
 
 export function App() {
@@ -8,6 +8,16 @@ export function App() {
   const [records, setRecords] = useState([]);
   const [error, setError] = useState("");
   const [timeList, setTimeList] = useState([0]);
+
+  useEffect(() => {
+    const getRecords = async () => {
+      const res = await getAllRecords();
+      setRecords(res.data);
+      setTimeList(res.data.map((record) => record.time));
+    };
+    getRecords();
+  }, []);
+
   const handleTitle = (e) => {
     setTitle(e.target.value);
   };
@@ -26,8 +36,7 @@ export function App() {
     }
   };
   console.log(timeList);
-  const records2 = getAllRecords();
-  console.log(records2);
+
   return (
     <>
       <h1>学習記録一覧</h1>
