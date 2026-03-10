@@ -46,9 +46,9 @@ export function App() {
       <input value={time} onChange={handleTime} />
       <p>入力されている学習内容：{title}</p>
       <p>入力されている時間：{time}時間</p>
-      {records.map((record) => {
+      {records.map((record, index) => {
         return (
-          <p>
+          <p key={index}>
             {record.title} {record.time}時間
           </p>
         );
