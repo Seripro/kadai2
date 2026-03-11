@@ -23,7 +23,6 @@ export function App() {
     } catch (e) {
       console.log(e);
     } finally {
-      console.log("finally");
       setLoading(false);
     }
   };
@@ -57,16 +56,12 @@ export function App() {
       createRecord(title, time);
     }
   };
-  console.log(timeList);
 
   const onClickDelete = (index) => {
     const newRecords = [...records];
     newRecords.splice(index, 1);
     setRecords(newRecords);
-    console.log("set");
   };
-  console.log("records");
-  console.log(records);
 
   return (
     <>
