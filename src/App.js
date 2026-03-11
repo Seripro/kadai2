@@ -84,6 +84,7 @@ export function App() {
         <p>Loading...</p>
       ) : (
         <>
+          <h1>デプロイテスト</h1>
           <h1>学習記録一覧</h1>
           <div style={{ display: "flex" }}>
             <p>学習内容</p>
