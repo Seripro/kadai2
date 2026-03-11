@@ -8,12 +8,26 @@ export function App() {
   const [records, setRecords] = useState([]);
   const [error, setError] = useState("");
   const [timeList, setTimeList] = useState([0]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const getRecords = async () => {
-      const res = await getAllRecords();
-      setRecords(res.data);
-      setTimeList(res.data.map((record) => record.time));
+      try {
+        const res = await getAllRecords();
+        if (res.error) {
+          console.log(res.error);
+          return;
+        }
+        setRecords(res.data);
+        setTimeList(res.data.map((record) => record.time));
+      } catch (e) {
+        console.log(e);
+        return <p>通信に失敗しました。</p>;
+      } finally {
+        console.log("finally");
+        setLoading(false);
+      }
     };
     getRecords();
   }, []);
@@ -39,29 +53,35 @@ export function App() {
 
   return (
     <>
-      <h1>学習記録一覧</h1>
-      <p>学習内容</p>
-      <input value={title} onChange={handleTitle} />
-      <p>学習時間</p>
-      <input value={time} onChange={handleTime} />
-      <p>入力されている学習内容：{title}</p>
-      <p>入力されている時間：{time}時間</p>
-      {records.map((record, index) => {
-        return (
-          <p key={index}>
-            {record.title} {record.time}時間
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <h1>学習記録一覧</h1>
+          <p>学習内容</p>
+          <input value={title} onChange={handleTitle} />
+          <p>学習時間</p>
+          <input value={time} onChange={handleTime} />
+          <p>入力されている学習内容：{title}</p>
+          <p>入力されている時間：{time}時間</p>
+          {records.map((record, index) => {
+            return (
+              <p key={index}>
+                {record.title} {record.time}時間
+              </p>
+            );
+          })}
+          <button onClick={handleClick}>登録</button>
+          <p>
+            合計時間：
+            {timeList.reduce((accumlator, currentValue) => {
+              return parseInt(accumlator) + parseInt(currentValue);
+            })}
+            /1000(h)
           </p>
-        );
-      })}
-      <button onClick={handleClick}>登録</button>
-      <p>
-        合計時間：
-        {timeList.reduce((accumlator, currentValue) => {
-          return parseInt(accumlator) + parseInt(currentValue);
-        })}
-        /1000(h)
-      </p>
-      <p>{error}</p>
+          <p>{error}</p>
+        </>
+      )}
     </>
   );
 }
