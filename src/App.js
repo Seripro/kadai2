@@ -107,7 +107,7 @@ export function App() {
             合計時間：
             {timeList.reduce((accumlator, currentValue) => {
               return parseInt(accumlator) + parseInt(currentValue);
-            })}
+            }, 0)}
             /1000(h)
           </p>
           <p>{error}</p>
