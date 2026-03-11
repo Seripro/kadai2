@@ -8,3 +8,7 @@ export const getAllRecords = async () => {
 export const insertRecord = async (record) => {
   await supabase.from("study-record").insert(record);
 };
+
+export const deleteRecord = async (id) => {
+  await supabase.from("study-record").delete().eq("id", id);
+};
