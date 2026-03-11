@@ -85,13 +85,13 @@ export function App() {
           </div>
           <p>入力されている学習内容：{title}</p>
           <p>入力されている時間：{time}時間</p>
-          {records.map((record, index) => {
+          {records.map((record) => {
             return (
-              <div key={index} style={{ display: "flex" }}>
+              <div key={record.id} style={{ display: "flex" }}>
                 <p>
                   {record.title} {record.time}時間
                 </p>
-                <button onClick={() => onClickDelete(index)}>削除</button>
+                <button onClick={() => onClickDelete(record.id)}>削除</button>
               </div>
             );
           })}
