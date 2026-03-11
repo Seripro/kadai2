@@ -61,6 +61,15 @@ export function App() {
   };
   console.log(timeList);
 
+  const onClickDelete = (index) => {
+    const newRecords = [...records];
+    newRecords.splice(index, 1);
+    setRecords(newRecords);
+    console.log("set");
+  };
+  console.log("records");
+  console.log(records);
+
   return (
     <>
       {loading ? (
@@ -80,11 +89,11 @@ export function App() {
           <p>入力されている時間：{time}時間</p>
           {records.map((record, index) => {
             return (
-              <div style={{ display: "flex" }}>
-                <p key={index}>
+              <div key={index} style={{ display: "flex" }}>
+                <p>
                   {record.title} {record.time}時間
                 </p>
-                <button>削除</button>
+                <button onClick={() => onClickDelete(index)}>削除</button>
               </div>
             );
           })}
