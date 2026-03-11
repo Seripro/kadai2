@@ -34,22 +34,9 @@ jobs:
                   cache: "npm"
             - name: Install firebase-tools
               run: npm install --save-dev firebase-tools
-            - name: Create Firebase service account key
-              env:
-                  FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
-              run: |
-                  echo "$FIREBASE_KEY" > ./firebase-key.json
-                  echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/firebase-key.json" >> $GITHUB_ENV
-            - name: List Firebase projects (Debug)
-              run: ./node_modules/.bin/firebase projects:list
             - name: Deploy to Firebase Hosting
               run: |
                   ./node_modules/.bin/firebase deploy --project "${{ secrets.FIREBASE_PROJECT_ID }}"
               env:
+                  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
                   FIREBASE_CLI_EXPERIMENTS: webframeworks
-            - name: delete GOOGLE_APPLICATION_CREDENTIALS
-              run: |
-                  if [ -n "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
-                      rm -f "$GOOGLE_APPLICATION_CREDENTIALS"
-                  fi
-              if: ${{ always() }}
