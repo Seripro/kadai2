@@ -10,25 +10,25 @@ export function App() {
   const [timeList, setTimeList] = useState([0]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const getRecords = async () => {
     setLoading(true);
-    const getRecords = async () => {
-      try {
-        const res = await getAllRecords();
-        if (res.error) {
-          console.log(res.error);
-          return;
-        }
-        setRecords(res.data);
-        setTimeList(res.data.map((record) => record.time));
-      } catch (e) {
-        console.log(e);
-        return <p>通信に失敗しました。</p>;
-      } finally {
-        console.log("finally");
-        setLoading(false);
+    try {
+      const res = await getAllRecords();
+      if (res.error) {
+        console.log(res.error);
+        return;
       }
-    };
+      setRecords(res.data);
+      setTimeList(res.data.map((record) => record.time));
+    } catch (e) {
+      console.log(e);
+    } finally {
+      console.log("finally");
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     getRecords();
   }, []);
 
@@ -45,15 +45,13 @@ export function App() {
       const createRecord = async (title, time) => {
         try {
           await insertRecord({ title: title, time: time });
-          setRecords([...records, { title: title, time: time }]);
-          setTimeList([...timeList, time]);
-        } catch (e) {
-          console.log(e);
-          return <p>登録に失敗しました</p>;
-        } finally {
+          await getRecords();
           setTitle("");
           setTime(0);
           setError("");
+        } catch (e) {
+          console.log(e);
+          setError("登録に失敗しました");
         }
       };
       createRecord(title, time);
