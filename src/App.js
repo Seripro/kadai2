@@ -68,17 +68,24 @@ export function App() {
       ) : (
         <>
           <h1>学習記録一覧</h1>
-          <p>学習内容</p>
-          <input value={title} onChange={handleTitle} />
-          <p>学習時間</p>
-          <input value={time} onChange={handleTime} />
+          <div style={{ display: "flex" }}>
+            <p>学習内容</p>
+            <input value={title} onChange={handleTitle} />
+          </div>
+          <div style={{ display: "flex" }}>
+            <p>学習時間</p>
+            <input value={time} onChange={handleTime} />
+          </div>
           <p>入力されている学習内容：{title}</p>
           <p>入力されている時間：{time}時間</p>
           {records.map((record, index) => {
             return (
-              <p key={index}>
-                {record.title} {record.time}時間
-              </p>
+              <div style={{ display: "flex" }}>
+                <p key={index}>
+                  {record.title} {record.time}時間
+                </p>
+                <button>削除</button>
+              </div>
             );
           })}
           <button onClick={handleClick}>登録</button>
