@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { getAllRecords } from "./utils/supabaseFunctions";
+import { getAllRecords, insertRecord } from "./utils/supabaseFunctions";
 
 export function App() {
   const [title, setTitle] = useState("");
@@ -42,11 +42,21 @@ export function App() {
     if (title === "" || time === 0 || time === "") {
       setError("入力されていない項目があります");
     } else {
-      setRecords([...records, { title: title, time: time }]);
-      setTimeList([...timeList, time]);
-      setTitle("");
-      setTime(0);
-      setError("");
+      const createRecord = async (title, time) => {
+        try {
+          await insertRecord({ title: title, time: time });
+          setRecords([...records, { title: title, time: time }]);
+          setTimeList([...timeList, time]);
+        } catch (e) {
+          console.log(e);
+          return <p>登録に失敗しました</p>;
+        } finally {
+          setTitle("");
+          setTime(0);
+          setError("");
+        }
+      };
+      createRecord(title, time);
     }
   };
   console.log(timeList);
