@@ -61,13 +61,16 @@ export function App() {
     }
   };
 
-  const onClickDelete = (id) => {
+  const onClickDelete = (index, id) => {
     const deleteRecordById = async () => {
       try {
         await deleteRecord(id);
         const newRecords = [...records];
         newRecords.splice(id, 1);
         setRecords(newRecords);
+        const newTimeList = [...timeList];
+        newTimeList.splice(index, 1);
+        setTimeList(newTimeList);
       } catch (e) {
         setError("削除に失敗しました");
       }
@@ -92,13 +95,15 @@ export function App() {
           </div>
           <p>入力されている学習内容：{title}</p>
           <p>入力されている時間：{time}時間</p>
-          {records.map((record) => {
+          {records.map((record, index) => {
             return (
               <div key={record.id} style={{ display: "flex" }}>
                 <p>
                   {record.title} {record.time}時間
                 </p>
-                <button onClick={() => onClickDelete(record.id)}>削除</button>
+                <button onClick={() => onClickDelete(index, record.id)}>
+                  削除
+                </button>
               </div>
             );
           })}
