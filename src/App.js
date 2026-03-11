@@ -1,6 +1,10 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { getAllRecords, insertRecord } from "./utils/supabaseFunctions";
+import {
+  deleteRecord,
+  getAllRecords,
+  insertRecord,
+} from "./utils/supabaseFunctions";
 
 export function App() {
   const [title, setTitle] = useState("");
@@ -57,10 +61,18 @@ export function App() {
     }
   };
 
-  const onClickDelete = (index) => {
-    const newRecords = [...records];
-    newRecords.splice(index, 1);
-    setRecords(newRecords);
+  const onClickDelete = (id) => {
+    const deleteRecordById = async () => {
+      try {
+        await deleteRecord(id);
+        const newRecords = [...records];
+        newRecords.splice(id, 1);
+        setRecords(newRecords);
+      } catch (e) {
+        setError("削除に失敗しました");
+      }
+    };
+    deleteRecordById();
   };
 
   return (
