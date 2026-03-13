@@ -1,47 +1,31 @@
 name: Scheduled deploy
 
 on:
-    push:
-    workflow_dispatch:
+  push:
+  workflow_dispatch:
 
 jobs:
-    build:
-        name: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "18"
-            - name: Install dependencies
-              run: npm install
-            - name: Run build
-              run: npm run build
-
-    deploy:
-        name: deploy
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-            - name: Setup Node.js and cache
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "18"
-                  cache: "npm"
-            - name: Install firebase-tools
-              run: npm install --save-dev firebase-tools
-            - name: Run build
-              run: npm run build
-              env:
-                  REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
-                  REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
-            - name: Deploy to Firebase Hosting
-              run: |
-                  ./node_modules/.bin/firebase deploy --project "${{ secrets.FIREBASE_PROJECT_ID }}"
-              env:
-                  FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-                  FIREBASE_CLI_EXPERIMENTS: webframeworks
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js and cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+      - name: Install firebase-tools
+        run: npm install --save-dev firebase-tools
+      - name: Run build
+        run: npm run build
+        env:
+          REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
+          REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
+      - name: Deploy to Firebase Hosting
+        run: |
+          ./node_modules/.bin/firebase deploy --project "${{ secrets.FIREBASE_PROJECT_ID }}"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
