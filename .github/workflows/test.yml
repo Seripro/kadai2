@@ -16,5 +16,7 @@ jobs:
               with:
                   node-version: "18"
                   cache: "npm"
+            - name: Install dependencies
+              run: npm run install
             - name: Run Test
-              run: npm run react-scripts test
+              run: npm run test
