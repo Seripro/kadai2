@@ -66,7 +66,7 @@ export function App() {
       try {
         await deleteRecord(id);
         const newRecords = [...records];
-        newRecords.splice(id, 1);
+        newRecords.splice(index, 1);
         setRecords(newRecords);
         const newTimeList = [...timeList];
         newTimeList.splice(index, 1);
