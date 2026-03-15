@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# 学習記録アプリ
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 概要
 
-## Available Scripts
+学習内容と時間を記録し、可視化するためのアプリケーションです
 
-In the project directory, you can run:
+## 機能
 
-### `npm start`
+- 学習内容、学習時間を記録することができる
+- 学習内容、学習時間を削除することができる
+- 記録した学習内容、学習時間を一覧表示できる
+- 記録した学習時間の合計を表示できる
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 使用技術
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- React
+- Supabase（Database）
+- Jest（テスト）
+- GitHub Actions（CI/CD）
 
-### `npm test`
+## セットアップ
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1. リポジトリをクローン
 
-### `npm run build`
+```bash
+git clone https://github.com/Seripro/kadai2.git
+cd kadai2
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. 依存関係のインストール
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 3. 環境変数の設定
 
-### `npm run eject`
+#### 3-1. .envの作成
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+.envファイルをプロジェクト直下に作成する
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### 3-2. Supabase URL, Supabase ANON keyの設定
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+以下のように.env内にSupabaseプロジェクトのURLとANONkeyを設定する（XXXを自分のものに書き換える）
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```env
+REACT_APP_SUPABASE_URL=XXX
+REACT_APP_SUPABASE_ANON_KEY=XXX
+```
 
-## Learn More
+#### 3-3. Supabaseテーブルの準備
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+このアプリでは `study-record` テーブルを使用します
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| カラム名 | 説明     |
+| -------- | -------- |
+| id       | 主キー   |
+| title    | 学習内容 |
+| time     | 学習時間 |
 
-### Code Splitting
+### 4. CI/CDのセットアップ
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### 4-1. GitHub上でリポジトリのSettings → Secrets and variables → Actionsに移動
 
-### Analyzing the Bundle Size
+#### 4-2. 環境変数を設定
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+以下の4つの変数を設定します
 
-### Making a Progressive Web App
+- FIREBASE_PROJECT_ID
+- FIREBASE_TOKEN
+- REACT_APP_SUPABASE_URL
+- REACT_APP_SUPABASE_ANON_KEY
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 起動方法
 
-### Advanced Configuration
+```bash
+npm run start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+このプロジェクトはFirebase Hostingでホストされており、以下のURLでアクセスできます<br/>
+https://study-record-da496.web.app/
 
-### Deployment
+## その他コマンド一覧
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+# ビルド
+npm run build
+```
 
-### `npm run build` fails to minify
+```bash
+# デプロイ
+npx firebase deploy
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+# テスト
+npm run test
+```
